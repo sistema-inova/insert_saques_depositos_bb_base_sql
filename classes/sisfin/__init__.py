@@ -9,7 +9,7 @@ import os
 class Sisfin:
     
     def __init__(self, matricula, senha):
-        os.startfile('sisfin_edp\SISFIN.edp')
+        os.startfile('sisfin_edp\\SISFIN.edp')
         time.sleep(3)
 
         self.system = CreateObject("Extra.System", dynamic=True)
@@ -22,7 +22,7 @@ class Sisfin:
         pyautogui.keyUp('up')
 
         time.sleep(1)
-        self.sisfin_escrever(self.screen, 22,11, matricula)
+        self.sisfin_escrever(22, 11, matricula)
         time.sleep(1)
         self.screen.SendKeys(senha)
         self.screen.SendKeys("<Enter>")
@@ -31,124 +31,126 @@ class Sisfin:
     def sisfin_finalizar(self):  
         os.system("taskkill /f /im EXTRA.EXE")
 
-    def sisfin_voltar_pagina_inicial_cardapio(self, screen, linha):
+    def sisfin_voltar_pagina_inicial_cardapio(self, linha):
         print("")
         # VOLTAR PARA A PÁGINA INICIAL DO CARDÁPIO
-        self.sisfin_escrever(screen, linha, 8, '.')
+        self.sisfin_escrever(linha, 8, '.')
         time.sleep(0.5)
 
-    def sisfin_ler(self, screen, row, col, length):
-        return screen.Area(row, col, row, col+length).value  
+    def sisfin_ler(self, row, col, length):
+        return self.screen.Area(row, col, row, col+length).value  
 
-    def sisfin_escrever(self, screen, row, col, text):
-        screen.row = row
-        screen.col = col
-        screen.SendKeys(text)
+    def sisfin_escrever(self, row, col, text):
+        self.screen.row = row
+        self.screen.col = col
+        self.screen.SendKeys(text)
         time.sleep(0.5)
-        screen.SendKeys("<Enter>")
+        self.screen.SendKeys("<Enter>")
         time.sleep(0.2)
 
-    def vmcy_acessar(self, screen, menu, periodo):
+    def vmcy_acessar(self, menu, periodo):
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 21,8,'VMCY')
+        self.sisfin_escrever(21,8,'VMCY')
         time.sleep(1)
-        while (self.sisfin_ler(screen, 2, 1,7) == 'Cardapio'):
+        while (self.sisfin_ler(2, 1,7) == 'Cardapio'):
             time.sleep(1)
 
-        self.sisfin_escrever(screen, 4, 13, 'T')
+        self.sisfin_escrever(4, 13, 'T')
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 4, 44, menu)
+        self.sisfin_escrever(4, 44, menu)
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 5, 17, 'T')
+        self.sisfin_escrever(5, 17, 'T')
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 5, 60, periodo)
+        self.sisfin_escrever(5, 60, periodo)
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 5, 71, periodo)
+        self.sisfin_escrever(5, 71, periodo)
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 6, 17, 'T')
+        self.sisfin_escrever(6, 17, 'T')
         time.sleep(1.5)
 
-    def vmcy_tratamento_sem_movimentacao(self, screen, celula_planilha):
+    def vmcy_tratamento_sem_movimentacao(self, celula_planilha):
         print("R$ -") 
         celula_planilha = 0
-        self.sisfin_escrever(screen, 23, 50, '.')
+        self.sisfin_escrever(23, 50, '.')
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 6, 17, '.')
+        self.sisfin_escrever(6, 17, '.')
         time.sleep(0.5)
 
-    def vmcb_acessar(self, screen, periodo, opcao):
+    def vmcb_acessar(self, periodo, opcao):
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 21,8,'VMCB')
+        self.sisfin_escrever(21, 8, 'VMCB')
         time.sleep(1)
-        while (self.sisfin_ler(screen, 2, 1,7) == 'Cardapio'):
+        while (self.sisfin_ler(2, 1,7) == 'Cardapio'):
             time.sleep(1)
 
-        self.sisfin_escrever(screen, 4, 12, periodo)
+        self.sisfin_escrever(4, 12, periodo)
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 5, 12, opcao)
+        self.sisfin_escrever(5, 12, opcao)
         time.sleep(1.5)
 
         contagem = 0
-        while self.sisfin_ler(screen, 9, 1, 2).strip() == '' and contagem <= 4:
+        while self.sisfin_ler(9, 1, 2).strip() == '' and contagem <= 4:
             time.sleep(0.5)
             contagem += 1
 
-    def vmcb_tratamento_sem_movimentacao(self, screen, celula_planilha):
-        celula_planilha = 0
+    def vmcb_tratamento_sem_movimentacao(self):
         print("Não há movimentações nesta data...")
         print("")
-        self.sisfin_escrever(screen, 5, 12, '.')
+        self.sisfin_escrever(5, 12, '.')
 
-    def vmcd_acessar_detalhando_menu_opcao(self, screen, periodo, opcao):
-        self.sisfin_escrever(screen, 21,8,'VMCD')
+    def vmcd_acessar_detalhando_menu_opcao(self, periodo, opcao):
+        self.sisfin_escrever(21,8,'VMCD')
         time.sleep(1)
-        while (self.sisfin_ler(screen, 2, 1,7) == 'Cardapio'):
+        while (self.sisfin_ler(2, 1,7) == 'Cardapio'):
             time.sleep(1)
 
-        self.sisfin_escrever(screen, 4, 17, 'CEF')
+        self.sisfin_escrever(4, 17, 'CEF')
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 5, 17, periodo)
+        self.sisfin_escrever(5, 17, periodo)
         time.sleep(1)
 
-        self.sisfin_escrever(screen, 21, 8, '10')
+        self.sisfin_escrever(21, 8, '10')
         time.sleep(1.5)
 
-    def vmcd_acessar_sem_detalhar_menu_opcao(self, screen, periodo):
+    def vmcd_acessar_sem_detalhar_menu_opcao(self, periodo):
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 21,8,'VMCD')
+        self.sisfin_escrever(21,8,'VMCD')
         time.sleep(1)
-        while (self.sisfin_ler(screen, 2, 1,7) == 'Cardapio'):
+        while (self.sisfin_ler(2, 1,7) == 'Cardapio'):
             time.sleep(1)
 
-        self.sisfin_escrever(screen, 4, 17, 'CEF')
+        self.sisfin_escrever(4, 17, 'CEF')
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 5, 17, periodo)
+        self.sisfin_escrever(5, 17, periodo)
         time.sleep(1.5)
 
-    def vmcd_tratamento_sem_movimentacao(self, screen, celula_planilha):
+    def vmcd_tratamento_sem_movimentacao(self, celula_planilha):
         print("Não há movimentações nesta data...")
         celula_planilha = 0 
         print("")
-        self.sisfin_escrever(screen, 21, 8, '.')
+        self.sisfin_escrever(21, 8, '.')
 
-    def veca_acessar(self, screen, periodo):
+    def veca_acessar(self, periodo):
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 21,8,'VECA')
+        self.sisfin_escrever(21,8,'VECA')
         time.sleep(1)
-        while (self.sisfin_ler(screen, 2, 1,7) == 'Cardapio'):
+        while (self.sisfin_ler(2, 1,7) == 'Cardapio'):
             time.sleep(1)
 
-        self.sisfin_escrever(screen, 4, 17, 'CEF')
+        self.sisfin_escrever(4, 17, 'CEF')
         time.sleep(0.5)
-        self.sisfin_escrever(screen, 5, 17, periodo)
+        self.sisfin_escrever(5, 17, periodo)
         time.sleep(1.5)
 
-    def veca_tratamento_sem_movimentacao(self, screen, celula_planilha):
+    def veca_tratamento_sem_movimentacao(self, celula_planilha):
         print("Sem movimentação nesta data")
         print("")
         celula_planilha = 0
-        self.sisfin_escrever(screen, 21, 8, '.')
+        self.sisfin_escrever(21, 8, '.')
         time.sleep(0.5)
+
+    def enter(self):
+        return self.screen.SendKeys("<Enter>")
 
     def tirar_printscreen(self, tipo_relatorio, nome_arquivo):
         if tipo_relatorio != 'parcial':
