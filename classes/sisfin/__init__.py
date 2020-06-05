@@ -9,7 +9,7 @@ import os
 class Sisfin:
     
     def __init__(self, matricula, senha):
-        os.startfile('sisfin_edp\\SISFIN.edp')
+        os.startfile('SISFIN.edp')
         time.sleep(3)
 
         self.system = CreateObject("Extra.System", dynamic=True)
