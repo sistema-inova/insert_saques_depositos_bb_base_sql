@@ -1,47 +1,56 @@
-import pyautogui
 import time
 import pyodbc
 from classes.sisfin import Sisfin
+from datetime import date, timedelta
 from credenciais import *
 import getpass
 import os
 
-conn = pyodbc.connect(f"DRIVER={{SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USER};PWD={PASSWORD}")
 
-cursor = conn.cursor()
+def capturar_dados_sisfin_saques_depositos_bb_bacen():
+    print("")
+    escrever_cabecalho('CAPTURA DADOS SAQUES/DEPÓSITOS BB/BACEN')
+    
+    usuario = input('Matrícula: ')
+    senha = getpass.getpass('Senha: ')
 
-# comando_insert = """
-#     INSERT INTO [dbo].[TBL_EMPREGADOS]
-#         ([matricula]
-#         ,[nomeCompleto]
-#         ,[primeiroNome]
-#         ,[dataNascimento]
-#         ,[codigoFuncao]
-#         ,[nomeFuncao]
-#         ,[codigoLotacaoAdministrativa]
-#         ,[nomeLotacaoAdministrativa]
-#         ,[codigoLotacaoFisica]
-#         ,[nomeLotacaoFisica]
-#         ,[created_at]
-#         ,[updated_at])
-#     VALUES
-#         ('c098453'
-#         ,'RAFAEL PIMENTEL GONCALVES'
-#         ,'RAFAEL'
-#         ,'1984-12-09'
-#         ,null
-#         ,null
-#         ,7257
-#         ,'GI ALIENAR BENS MOVEIS IMOV SAO PAULO,SP'
-#         ,null
-#         ,null
-#         ,'2020-01-14 11:10:17.820'
-#         ,'2020-06-03 16:19:05.000')
-#     """
-# cursor.execute(comando_insert)
-# cursor.commit()
+    for dia in range(-1, 11):
+        if dia == -1:
+            periodo = f"H-1"
+            data_periodo = date.today() - timedelta(days=1)
+        elif dia == 0:
+            periodo = f"H"
+            data_periodo = date.today()
+        else:
+            periodo = f"H+{dia}"
+            data_periodo = date.today() + timedelta(days=dia)
 
-cursor.execute(f'SELECT * FROM {DATABASE}.[dbo].[TBL_EMPREGADOS]')
+    sisfin = Sisfin(usuario, senha)
 
-for row in cursor:
-    print(row)
+
+
+    sisfin.sisfin_finalizar()
+
+
+
+
+    # conn = pyodbc.connect(f"DRIVER={{SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USER};PWD={PASSWORD}")
+
+    # # cursor = conn.cursor()
+
+    # string = "CREATE TABLE TestTable(symbol varchar(15), leverage double, shares integer, price double)"
+    # cur.execute(string)
+
+
+    # for row in cursor:
+    #     print(row)
+
+def escrever_cabecalho(mensagem):
+    print("{:*^100}" .format("*"))
+    print("{:*^100}" .format(f" {mensagem} "))
+    print("{:*^100}" .format("*"))
+    print("")
+
+
+if __name__ == "__main__":
+    capturar_dados_sisfin_saques_depositos_bb_bacen()

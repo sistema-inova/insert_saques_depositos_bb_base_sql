@@ -16,10 +16,10 @@ class Sisfin:
         self.session = self.system.ActiveSession
         self.screen = self.session.Screen
 
-        # pyautogui.keyDown('win')
-        # pyautogui.keyDown('up')
-        # pyautogui.keyUp('win')
-        # pyautogui.keyUp('up')
+        pyautogui.keyDown('win')
+        pyautogui.keyDown('up')
+        pyautogui.keyUp('win')
+        pyautogui.keyUp('up')
 
         time.sleep(1)
         self.sisfin_escrever(self.screen, 22,11, matricula)
